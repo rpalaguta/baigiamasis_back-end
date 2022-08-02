@@ -34,19 +34,19 @@ class ServiceController extends Controller
 
     public function show($id)
     {
-        $service = Service::find($id)->with('author', 'category');
+        $service = Service::with('author', 'category')->find($id);
         return response($service, 200);
     }
 
     public function showInCategory($id)
     {
-        $services = Service::all()->where('category_id', $id)->with('author', 'category');
+        $services = Service::with('author', 'category')->where('category_id', $id)->get();
         return response($services, 200);
     }
 
     public function update(Request $request, $id)
     {
-        if($request->isMethod('put')) {
+        if ($request->isMethod('put')) {
             $data = $request->validate(
                 [
                     'name' => 'required|between:2,100',

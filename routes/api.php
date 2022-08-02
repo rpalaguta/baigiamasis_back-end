@@ -28,4 +28,3 @@ Route::resource('service', ServiceController::class);
 Route::get('categories/{id}/services', [ServiceController::class, 'showInCategory']);
 Route::resource('review', ReviewsController::class);
 Route::get('/service/{id}/reviews', [ReviewsController::class, 'getAllReviewsForService']);
-

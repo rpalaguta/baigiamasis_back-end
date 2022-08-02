@@ -27,7 +27,7 @@ class ReviewsController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->isMethod('post')) {
+        if ($request->isMethod('post')) {
             $data = $request->validate(
                 [
                     'user_id' => 'required',
@@ -62,7 +62,7 @@ class ReviewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($request->isMethod('put')) {
+        if ($request->isMethod('put')) {
             $data = $request->validate(
                 [
                     'service_id' => 'required',
