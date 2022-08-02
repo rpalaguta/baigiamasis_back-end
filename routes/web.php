@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('users', [UserController::class, 'index']);
+// Route::get('users/{id}', [UserController::class, 'show']);
+// Route::post('users/{id}', [UserController::class, 'edit']);
+// Route::post('users/create', [UserController::class, 'createUser']);
+// Route::get('category', [CategoryController::class, 'list']);
+// Route::post('category/create', [CategoryController::class, 'create']);
