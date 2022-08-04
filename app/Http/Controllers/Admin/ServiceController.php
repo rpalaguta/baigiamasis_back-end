@@ -21,7 +21,7 @@ class ServiceController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->validate(
                 [
-                'name' => 'required|between:2,100',
+                'name' => 'required|between:5,100',
                 'author_id' => 'required',
                 'category_id' => 'required',
                 'description' => 'required|between:10,255',

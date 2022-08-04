@@ -15,22 +15,22 @@ class UserController extends Controller
         return response($users, 200);
     }
 
-    public function store(Request $request)
-    {
-        if ($request->isMethod('post')) {
-            $data = $request->validate(
-                [
-                'email' => 'required|email|unique:users',
-                'name' => 'required|between:2,100',
-                'password' => 'required',
-                'role_id' => 'required',
-                ]
-            );
-            $data['password'] = Hash::make($data['password']);
-            $user = User::create($data);
-            return response($user, 200);
-        }
-    }
+    // public function store(Request $request)
+    // {
+    //     if ($request->isMethod('post')) {
+    //         $data = $request->validate(
+    //             [
+    //             'email' => 'required|email|unique:users',
+    //             'name' => 'required|between:2,100',
+    //             'password' => 'required',
+    //             'role_id' => 'required',
+    //             ]
+    //         );
+    //         $data['password'] = Hash::make($data['password']);
+    //         $user = User::create($data);
+    //         return response($user, 200);
+    //     }
+    // }
 
     public function show($id)
     {

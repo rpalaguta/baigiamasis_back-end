@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('name', 100)->unique();
             $table->text('description');
             $table->BigInteger('author_id')->unsigned();
-            $table->BigInteger('category')->unsigned();
+            $table->BigInteger('category_id')->unsigned();
             $table->foreign('author_id')->references('id')->on('users');
-            $table->foreign('category')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
             $table->softDeletes();
         });

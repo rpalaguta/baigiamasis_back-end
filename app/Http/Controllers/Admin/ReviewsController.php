@@ -13,7 +13,7 @@ class ReviewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAllReviewsForService($id)
+    public function getAllReviewsForService(Request $request, $id)
     {
         $review = Review::all()->where('service_id', $id);
         return response($review, 200);
