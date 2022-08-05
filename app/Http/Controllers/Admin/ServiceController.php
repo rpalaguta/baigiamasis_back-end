@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -14,7 +13,6 @@ class ServiceController extends Controller
         $service = Service::with('category', 'author', 'reviews')->get();
         return response($service, 200);
     }
-
 
     public function store(Request $request)
     {
@@ -34,7 +32,7 @@ class ServiceController extends Controller
 
     public function show($id)
     {
-        $service = Service::with('author', 'category')->find($id);
+        $service = Service::with('category', 'author', 'reviews')->find($id);
         return response($service, 200);
     }
 

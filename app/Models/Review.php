@@ -10,19 +10,25 @@ class Review extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'author_id',
         'service_id',
         'review',
         'rating',
     ];
 
     protected $hidden = [
+        'author_id',
         'created_at',
         'updated_at',
     ];
 
-    public function user()
+    public function author()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
     }
 }

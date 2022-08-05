@@ -17,7 +17,6 @@ class Service extends Model
         'description',
         'category_id',
         'author_id',
-
     ];
     
     protected $hidden = [
