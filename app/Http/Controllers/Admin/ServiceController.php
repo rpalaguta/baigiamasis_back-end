@@ -42,6 +42,12 @@ class ServiceController extends Controller
         return response($services, 200);
     }
 
+    public function showAllFromUser($id)
+    {
+        $services = Service::with('author', 'category')->where('author_id', $id)->get();
+        return response($services, 200);
+    }
+
     public function update(Request $request, $id)
     {
         if ($request->isMethod('put')) {

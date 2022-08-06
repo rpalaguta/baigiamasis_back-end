@@ -26,7 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('service', [ServiceController::class, 'store']);
     Route::put('service/{id}', [ServiceController::class, 'update']);
     Route::delete('service/{id}', [ServiceController::class, 'destroy']);
-    
+    Route::get('service/my-services/{id}', [ServiceController::class, 'showAllFromUser']);
 });
 Route::get('service/{id}', [ServiceController::class, 'show']);
 
