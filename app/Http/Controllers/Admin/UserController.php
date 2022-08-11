@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('role')->get();
+        $users = User::with('role')->orderBy('name', 'ASC')->get();
         return response($users, 200);
     }
 

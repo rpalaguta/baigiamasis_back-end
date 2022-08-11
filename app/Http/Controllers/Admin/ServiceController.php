@@ -10,7 +10,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $service = Service::with('category', 'author', 'reviews')->get();
+        $service = Service::with('category', 'author', 'reviews')->orderBy('created_at', 'DESC')->get();
         return response($service, 200);
     }
 

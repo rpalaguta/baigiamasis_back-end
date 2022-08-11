@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 
 class ReviewsController extends Controller
 {
-    public function getAllReviewsForService(Request $request, $id)
+    public function getAllReviewsForService($id)
     {
-        $review = Review::with('author')->where('service_id', $id)->get();
+        $review = Review::with('author')->where('service_id', $id)->orderBy('created_at', 'DESC')->get();
+        return response($review, 200);
+    }
+
+    public function getAllReviewsFromUser($id)
+    {
+        $review = Review::with('author')->where('author_id', $id)->orderBy('created_at', 'DESC')->get();
         return response($review, 200);
     }
 
