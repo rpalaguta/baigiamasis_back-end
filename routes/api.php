@@ -3,12 +3,10 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\Admin\ServiceController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Middleware\CheckRole;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +17,7 @@ use App\Models\User;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -31,22 +29,23 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 //         Route::delete('service/{id}', [ServiceController::class, 'destroy']);
 //         Route::get('service/my-services/{id}', [ServiceController::class, 'showAllFromUser']);
 //     });
-    
+
 //     Route::middleware(['role:' . User::ROLE_ADMIN])->group(function () {
-        
+
 //     });
 // });
 
 # -------------
 Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_USER . '|' . User::ROLE_ADMIN]], function () {
-    
+    Route::post('auth/current-user', [AuthController::class, 'getCurrentUser']);
+
     #Service
     Route::prefix('/service')->group(function () {
         Route::post('/', [ServiceController::class, 'store']);
         Route::put('/{id}', [ServiceController::class, 'update']);
         Route::delete('/{id}', [ServiceController::class, 'destroy']);
         Route::get('/my-services/{id}', [ServiceController::class, 'showAllFromUser']);
-        
+
     });
 
     #Category
@@ -64,7 +63,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_USER . '|' .
     Route::prefix('/review')->group(function () {
         Route::post('/', [ReviewsController::class, 'store']);
     });
-    
+
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_ADMIN]], function () {
@@ -92,7 +91,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_ADMIN]], fun
         Route::put('/{id}', [ReviewsController::class, 'update']);
         Route::delete('/{id}', [ReviewsController::class, 'destroy']);
     });
-    
+
 });
 
 # Service-guest
@@ -109,7 +108,6 @@ Route::get('service/{id}/reviews', [ReviewsController::class, 'getAllReviewsForS
 # Auth-guest
 Route::post('auth/register', [AuthController::class, 'createUser']);
 Route::post('auth/login', [AuthController::class, 'loginUser']);
-
 
 // Route::resource('service', ServiceController::class);
 // Route::resource('users', UserController::class);

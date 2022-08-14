@@ -22,17 +22,17 @@ class AuthController extends Controller
         try {
             //validated
             $validateuser = Validator::make($request->all(),
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
+                [
+                    'name' => 'required',
+                    'email' => 'required|email|unique:users,email',
+                    'password' => 'required',
+                ]);
 
-            if($validateuser->fails()) {
+            if ($validateuser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
-                    'error' => $validateuser->errors()
+                    'error' => $validateuser->errors(),
                 ], 401);
             }
 
@@ -48,17 +48,27 @@ class AuthController extends Controller
                 'message' => 'User created successfully',
                 'user_id' => $user->id,
                 'name' => $user->name,
-                'token' => $user->createToken('API TOKEN')->plainTextToken
+                'token' => $user->createToken('API TOKEN')->plainTextToken,
             ], 200);
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], 500);
         }
 
-        
+    }
+
+    public function getCurrentUser(Request $request)
+    {
+        $user = User::where('id', $request->user()->id)->with('role')->first();
+        return response()->json([
+            'user_id' => $user->id,
+            'name' => $user->name,
+            'role' => $user->role,
+        ], 200);
+
     }
 
     /**
@@ -70,24 +80,24 @@ class AuthController extends Controller
     {
         try {
             $validateuser = Validator::make($request->all(),
-            [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
+                [
+                    'email' => 'required|email',
+                    'password' => 'required',
+                ]);
 
-            if($validateuser->fails()) {
+            if ($validateuser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
-                    'error' => $validateuser->errors()
+                    'error' => $validateuser->errors(),
                 ], 401);
             }
 
-            if(!Auth::attempt($request->only(['email', 'password']))){
+            if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Email & Password does not match with our record',
-                    'error' => $validateuser->errors()
+                    'error' => $validateuser->errors(),
                 ], 401);
             }
 
@@ -99,14 +109,14 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'name' => $user->name,
                 'role' => $user->role,
-                'token' => $user->createToken('API TOKEN')->plainTextToken
+                'token' => $user->createToken('API TOKEN')->plainTextToken,
             ], 200);
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], 500);
         }
     }

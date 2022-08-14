@@ -20,8 +20,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'role_id' => $this->faker->numberBetween($min = 1, $max = 2),
-            'email' =>  $this->faker->unique()->safeEmail(),
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // password
             'remember_token' => Str::random(10),
