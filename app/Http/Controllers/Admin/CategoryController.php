@@ -23,7 +23,7 @@ class CategoryController extends Controller
         if ($request->isMethod('post')) {
             $request->validate(
                 [
-                'name' => 'required|between:2,100',
+                    'name' => 'required|between:2,100',
                 ]
             );
 
@@ -49,8 +49,8 @@ class CategoryController extends Controller
         if ($request->isMethod('put')) {
             $data = $request->validate(
                 [
-                'name' => 'required|between:2,100',
-                'active' => 'required'
+                    'name' => 'required|between:2,100',
+                    'active' => 'required',
                 ]
             );
             $category = Category::where('id', $id)->update($data);
@@ -63,6 +63,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
+        $category->services()->delete();
         $category->delete();
 
         return response('category deleted successfully', 200);

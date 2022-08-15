@@ -8,15 +8,21 @@ use Illuminate\Http\Request;
 
 class ReviewsController extends Controller
 {
+    public function getAllReviews()
+    {
+        $review = Review::with('user')->orderBy('user_id', 'DESC')->get();
+        return response($review, 200);
+    }
+
     public function getAllReviewsForService($id)
     {
-        $review = Review::with('author')->where('service_id', $id)->orderBy('created_at', 'DESC')->get();
+        $review = Review::with('user')->where('service_id', $id)->orderBy('created_at', 'DESC')->get();
         return response($review, 200);
     }
 
     public function getAllReviewsFromUser($id)
     {
-        $review = Review::with('author')->where('author_id', $id)->orderBy('created_at', 'DESC')->get();
+        $review = Review::with('user')->where('user_id', $id)->orderBy('created_at', 'DESC')->get();
         return response($review, 200);
     }
 
@@ -25,7 +31,7 @@ class ReviewsController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->validate(
                 [
-                    'author_id' => 'required',
+                    'user_id' => 'required',
                     'service_id' => 'required',
                     'review' => 'required',
                     'rating' => 'required',
@@ -38,7 +44,7 @@ class ReviewsController extends Controller
 
     public function show($id)
     {
-        $review = Review::with('author')->find($id);
+        $review = Review::with('user')->find($id);
         if ($review) {
             return response($review, 200);
         }

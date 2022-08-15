@@ -4,27 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Review extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'author_id',
+        'user_id',
         'service_id',
         'review',
         'rating',
     ];
 
     protected $hidden = [
-        'author_id',
+        'user_id',
         'created_at',
         'updated_at',
     ];
 
-    public function author()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, );
     }
 
     public function service()

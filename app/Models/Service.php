@@ -16,20 +16,20 @@ class Service extends Model
         'name',
         'description',
         'category_id',
-        'author_id',
+        'user_id',
     ];
-    
+
     protected $hidden = [
         'deleted_at',
         'category_id',
-        'author_id',
+        'user_id',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     //
 
-    public function author()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

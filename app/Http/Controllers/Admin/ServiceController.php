@@ -10,7 +10,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $service = Service::with('category', 'author', 'reviews')->orderBy('created_at', 'DESC')->get();
+        $service = Service::with('category', 'user', 'reviews')->orderBy('created_at', 'DESC')->get();
         return response($service, 200);
     }
 
@@ -19,10 +19,10 @@ class ServiceController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->validate(
                 [
-                'name' => 'required|between:5,100',
-                'author_id' => 'required',
-                'category_id' => 'required',
-                'description' => 'required|between:10,255',
+                    'name' => 'required|between:5,100',
+                    'user_id' => 'required',
+                    'category_id' => 'required',
+                    'description' => 'required|between:10,255',
                 ]
             );
             $service = Service::create($data);
@@ -32,19 +32,19 @@ class ServiceController extends Controller
 
     public function show($id)
     {
-        $service = Service::with('category', 'author', 'reviews')->find($id);
+        $service = Service::with('category', 'user', 'reviews')->find($id);
         return response($service, 200);
     }
 
     public function showInCategory($id)
     {
-        $services = Service::with('author', 'category')->where('category_id', $id)->get();
+        $services = Service::with('user', 'category')->where('category_id', $id)->get();
         return response($services, 200);
     }
 
     public function showAllFromUser($id)
     {
-        $services = Service::with('author', 'category')->where('author_id', $id)->get();
+        $services = Service::with('user', 'category')->where('user_id', $id)->get();
         return response($services, 200);
     }
 
@@ -66,6 +66,7 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         $service = Service::find($id);
+        $service->reviews()->delete();
         $service->delete();
         return response('Service deleted', 200);
     }

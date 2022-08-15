@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -38,6 +37,12 @@ class UserController extends Controller
         return response($user, 200);
     }
 
+    public function showAllUsers()
+    {
+        $user = User::all();
+        return response($user, 200);
+    }
+
     public function update(Request $request, $id)
     {
         if ($request->isMethod('put')) {
@@ -55,7 +60,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+        $user->reviews()->delete();
+        $user->services()->delete();
         $user->delete();
-        return response('User deleted', 200);
+        return response('User, its services and reviews were deleted successfully', 200);
     }
 }

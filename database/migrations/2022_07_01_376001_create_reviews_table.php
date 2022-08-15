@@ -19,10 +19,11 @@ return new class extends Migration
             $table->BigInteger('service_id')->unsigned();
             $table->string('review');
             $table->integer('rating');
-            $table->boolean('visable')->default(TRUE);
+            $table->boolean('visable')->default(true);
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('service_id')->references('id')->on('services');
+            $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
         });
     }
 

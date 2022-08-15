@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,20 +23,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
-// Route::middleware(['auth:sanctum'])->group(function () {
-//     Route::middleware(['role:' . User::ROLE_USER . '|' . User::ROLE_ADMIN])->group(function () {
-//         Route::post('service', [ServiceController::class, 'store'])->name('post');
-//         Route::put('service/{id}', [ServiceController::class, 'update']);
-//         Route::delete('service/{id}', [ServiceController::class, 'destroy']);
-//         Route::get('service/my-services/{id}', [ServiceController::class, 'showAllFromUser']);
-//     });
-
-//     Route::middleware(['role:' . User::ROLE_ADMIN])->group(function () {
-
-//     });
-// });
 
 # -------------
+# User ROUTES
 Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_USER . '|' . User::ROLE_ADMIN]], function () {
     Route::post('auth/current-user', [AuthController::class, 'getCurrentUser']);
 
@@ -43,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_USER . '|' .
     Route::prefix('/service')->group(function () {
         Route::post('/', [ServiceController::class, 'store']);
         Route::put('/{id}', [ServiceController::class, 'update']);
+        Route::get('/{id}', [ServiceController::class, 'show']);
         Route::delete('/{id}', [ServiceController::class, 'destroy']);
         Route::get('/my-services/{id}', [ServiceController::class, 'showAllFromUser']);
 
@@ -66,6 +57,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_USER . '|' .
 
 });
 
+# ------------
+# Admin ROUTES
 Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_ADMIN]], function () {
 
     #Category
@@ -80,16 +73,22 @@ Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_ADMIN]], fun
     Route::prefix('/users')->group(function () {
         Route::get('/{id}/reviews', [CategoryController::class, 'getAllReviewsFromUser']);
         Route::put('/{id}', [CategoryController::class, 'update']);
+        Route::get('/', [UserController::class, 'showAllUsers']);
         Route::get('/{id}', [CategoryController::class, 'show']);
-        Route::delete('/{id}', [CategoryController::class, 'destroy']);
+        Route::delete('/{id}', [UserController::class, 'destroy']);
     });
 
     #Reviews
     Route::prefix('/review')->group(function () {
-        Route::post('/', [ReviewsController::class, 'store']);
+        Route::get('/', [ReviewsController::class, 'getAllReviews']);
         Route::get('/{id}', [ReviewsController::class, 'show']);
         Route::put('/{id}', [ReviewsController::class, 'update']);
         Route::delete('/{id}', [ReviewsController::class, 'destroy']);
+    });
+
+    #Services
+    Route::prefix('/services')->group(function () {
+        Route::delete('/{id}', [ServiceController::class, 'destroy']);
     });
 
 });
@@ -108,7 +107,3 @@ Route::get('service/{id}/reviews', [ReviewsController::class, 'getAllReviewsForS
 # Auth-guest
 Route::post('auth/register', [AuthController::class, 'createUser']);
 Route::post('auth/login', [AuthController::class, 'loginUser']);
-
-// Route::resource('service', ServiceController::class);
-// Route::resource('users', UserController::class);
-// Route::resource('review', ReviewsController::class);
