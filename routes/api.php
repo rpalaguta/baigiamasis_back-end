@@ -36,7 +36,6 @@ Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_USER . '|' .
         Route::get('/{id}', [ServiceController::class, 'show']);
         Route::delete('/{id}', [ServiceController::class, 'destroy']);
         Route::get('/my-services/{id}', [ServiceController::class, 'showAllFromUser']);
-
     });
 
     #Category
@@ -54,7 +53,6 @@ Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_USER . '|' .
     Route::prefix('/review')->group(function () {
         Route::post('/', [ReviewsController::class, 'store']);
     });
-
 });
 
 # ------------
@@ -90,7 +88,6 @@ Route::group(['middleware' => ['auth:sanctum', 'role:' . User::ROLE_ADMIN]], fun
     Route::prefix('/services')->group(function () {
         Route::delete('/{id}', [ServiceController::class, 'destroy']);
     });
-
 });
 
 # Service-guest

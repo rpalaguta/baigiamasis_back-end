@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-class CheckRole 
+class CheckRole
 {
     /**
      * Handle an incoming request.
@@ -21,7 +21,7 @@ class CheckRole
         /** @var User */
         $user = Auth::User();
 
-        $roles = explode( '|', $role );
+        $roles = explode('|', $role);
         // dd($roles);
         // dd(Auth::user());
         if (! $user->containsRoles($roles)) {

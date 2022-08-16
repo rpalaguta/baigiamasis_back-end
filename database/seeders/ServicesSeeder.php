@@ -17,7 +17,7 @@ class ServicesSeeder extends Seeder
         DB::table('services')->insert([
             'name' => 'Slyvų užkalbėtojas',
             'description' => 'Nebevalit tavo slyvacoinas? Chabra bado pirštais ir šaukia nėra dūmų - nėra galios? Nenusimink! Męs galim tau padėt! Privairuok savo mazhutę pas mus ir kranai bus atsukti!!',
-            'user_id' => '3',
+            'user_id' => '2',
             'category_id' => '1',
         ]);
         DB::table('services')->insert([
@@ -51,7 +51,5 @@ class ServicesSeeder extends Seeder
             'user_id' => '5',
             'category_id' => '3',
         ]);
-
     }
-
 }

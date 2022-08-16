@@ -99,7 +99,5 @@ class User extends Authenticatable
         }
         return false;
         // dd('has a role');
-
     }
-
 }

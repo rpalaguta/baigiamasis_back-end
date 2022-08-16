@@ -21,12 +21,14 @@ class AuthController extends Controller
 
         try {
             //validated
-            $validateuser = Validator::make($request->all(),
+            $validateuser = Validator::make(
+                $request->all(),
                 [
                     'name' => 'required',
                     'email' => 'required|email|unique:users,email',
                     'password' => 'required',
-                ]);
+                ]
+            );
 
             if ($validateuser->fails()) {
                 return response()->json([
@@ -50,14 +52,12 @@ class AuthController extends Controller
                 'name' => $user->name,
                 'token' => $user->createToken('API TOKEN')->plainTextToken,
             ], 200);
-
         } catch (\Throwable$th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage(),
             ], 500);
         }
-
     }
 
     public function getCurrentUser(Request $request)
@@ -68,7 +68,6 @@ class AuthController extends Controller
             'name' => $user->name,
             'role' => $user->role,
         ], 200);
-
     }
 
     /**
@@ -79,11 +78,13 @@ class AuthController extends Controller
     public function loginUser(Request $request)
     {
         try {
-            $validateuser = Validator::make($request->all(),
+            $validateuser = Validator::make(
+                $request->all(),
                 [
                     'email' => 'required|email',
                     'password' => 'required',
-                ]);
+                ]
+            );
 
             if ($validateuser->fails()) {
                 return response()->json([
@@ -111,9 +112,7 @@ class AuthController extends Controller
                 'role' => $user->role,
                 'token' => $user->createToken('API TOKEN')->plainTextToken,
             ], 200);
-
         } catch (\Throwable$th) {
-
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage(),
