@@ -1,5 +1,12 @@
 This is a back end part of my project for CodeAcademy. Here I've used Laravel to make an API that is used in the front end.    
 
+Admin user:
+email: admin@email.com  
+password: 123456
+
+User: user@email.com
+password: 123456
+
 To launch this project you need PHP 8.0.2, Laravel 8 and Docker. 
 Delete '.example' extension from 'env.example' file then use the following commands in order:
 1. composer install
