@@ -22,8 +22,6 @@ class CheckRole
         $user = Auth::User();
 
         $roles = explode('|', $role);
-        // dd($roles);
-        // dd(Auth::user());
         if (! $user->containsRoles($roles)) {
             abort(401, 'This action is unauthorized.');
         }

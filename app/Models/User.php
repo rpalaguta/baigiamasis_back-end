@@ -92,12 +92,9 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        // dd($this->role);
         if ($this->role()->where('name', $role)->first()) {
             return true;
-            // dd('has a role');
         }
         return false;
-        // dd('has a role');
     }
 }
